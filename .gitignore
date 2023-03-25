@@ -2,3 +2,5 @@ dep.d
 main
 obj/
 test/
+*.o
+tail
