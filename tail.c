@@ -11,9 +11,9 @@
 #define RESET
 #define RED
 #else
-#define RED "\e[91m"
-#define MAGENTA "\e[95m"
-#define RESET "\e[0m"
+#define RED "\x1b[91m"
+#define MAGENTA "\x1b[95m"
+#define RESET "\x1b[0m"
 #endif
 
 // Circular buffer headers >>==================================================
@@ -53,6 +53,8 @@ _Bool tail(FILE *in, FILE* out, size_t line_count);
 char *getline(FILE *in, char *buffer, size_t len);
 
 int main(int argc, char **argv) {
+    (void)argc; // ignore unused parameter warning
+
     char *filename = NULL;
     size_t line_count = 10;
 
