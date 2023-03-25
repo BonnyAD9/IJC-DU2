@@ -39,7 +39,7 @@ _Bool tail(FILE *in, FILE* out, size_t line_count);
 char *getline(FILE *in, char *buffer, size_t len);
 
 int main(void) {
-    size_t line_count = 10;
+    size_t line_count = 2;
     tail(stdin, stdout, line_count);
 }
 
@@ -81,6 +81,7 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
         fputs(buffer, out);
         free(buffer);
     }
+    cb_free(lines);
 
     return 1;
 
@@ -90,14 +91,15 @@ panic:
         free(buffer);
     while ((buffer = cb_get(&lines)))
         free(buffer);
+    cb_free(lines);
     return 0;
 }
 
 char *getline(FILE *in, char *buffer, size_t len) {
     assert(len);
 
-    int c;
-    while (--len && (c = fgetc(in)) != EOF)
+    int c = 0;
+    while (--len && c != '\n'  && (c = fgetc(in)) != EOF)
         *buffer++ = c;
     *buffer = 0;
     return buffer;
@@ -126,10 +128,10 @@ cb_t cb_create(size_t n) {
 }
 
 char *cb_put(cb_t *cb, char *line) {
-    char *ret = cb->write + 1 % cb->size == cb->read ? cb_get(cb) : NULL;
+    char *ret = (cb->write + 1) % cb->size == cb->read ? cb_get(cb) : NULL;
 
     cb->buffer[cb->write] = line;
-    cb->write = cb->write + 1 % cb->size;
+    cb->write = (cb->write + 1) % cb->size;
     return ret;
 }
 
@@ -138,7 +140,7 @@ char *cb_get(cb_t *cb) {
         return NULL;
 
     char *ret = cb->buffer[cb->read];
-    cb->read = cb->read + 1 % cb->size;
+    cb->read = (cb->read + 1) % cb->size;
     return ret;
 }
 
