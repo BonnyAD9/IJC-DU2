@@ -3,17 +3,17 @@
 #include <ctype.h> // isspace
 
 int read_word(char *s, int max, FILE *f) {
-    while (isspace(fgetc(f)))
+    int c;
+    while (isspace(c = fgetc(f)))
         ;
 
-    if (feof(f))
+    if (c == EOF)
         return EOF;
 
-    int c;
     int i = 0;
-    for (; i < max - 1 && (c = fgetc(f)) != EOF && !isspace(c); ++i) {
-        s[i] = c;
-    }
+
+    do s[i++] = c;
+    while (i < max - 1 && (c = fgetc(f)) != EOF && !isspace(c));
 
     s[i] = 0;
 
