@@ -16,7 +16,7 @@ static const size_t DPRIMES[] = {
 // size of the DPRIMES array (should be 32)
 #define DPRIMES_LEN (sizeof(DPRIMES) / sizeof(*DPRIMES))
 
-size_t _get_prime(size_t num) {
+static size_t _get_prime(size_t num) {
     for (size_t i = 0; i < DPRIMES_LEN; ++i) {
         if (DPRIMES[i] >= num)
             return DPRIMES[i];
