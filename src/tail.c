@@ -99,7 +99,7 @@ char *getline(FILE *in, char *buffer, size_t len) {
     assert(len);
 
     int c = 0;
-    while (--len && c != '\n'  && (c = fgetc(in)) != EOF)
+    while (--len && c != '\n' && (c = fgetc(in)) != EOF)
         *buffer++ = c;
     *buffer = 0;
     return buffer;
