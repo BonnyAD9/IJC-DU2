@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-// colorful prints
+// ansi escape codes colorful prints
 #ifdef NO_COLOR_PRINT
 #define MAGENTA
 #define RESET
@@ -64,6 +64,7 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
     _Bool warn = 0;
     size_t warndist = 0;
 
+    // read the lines
     for (;; ++warndist) {
         // allocate the buffer if it isn't
         if (!buffer) {
