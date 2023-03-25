@@ -1,9 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
+#include <stdio.h>  // size_t, FILE, fprintf, fopen, fclose, fscanf, fputs,
+                    // NULL
+#include <stdlib.h> // strtoul, EXIT_FAILURE, EXIT_SUCCESS, free, malloc,
+                    // calloc
+#include <assert.h> // assert
+#include <string.h> // strcmp
 
-// ansi escape codes colorful prints
+// ANSI escape codes colorful prints
 #ifdef NO_COLOR_PRINT
 #define MAGENTA
 #define RESET
