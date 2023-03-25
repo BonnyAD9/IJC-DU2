@@ -27,13 +27,14 @@ htab_pair_t *htab_lookup_add(htab_t *t, htab_key_t key) {
             return NULL;
 
         size_t key_len = strlen(key) + 1;
-        (**n).data.key = malloc(key_len);
-        if (!(**n).data.key) {
+        char *data_key = malloc(key_len);
+        if (!data_key) {
             free(*n);
             return NULL;
         }
 
-        memcpy(&(**n).data.key, key, key_len);
+        memcpy(data_key, key, key_len);
+        (**n).data.key = data_key;
         ++t->size;
     }
     return &(**n).data;
