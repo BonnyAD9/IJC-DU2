@@ -110,13 +110,13 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
 
     return 1;
 
-    // on error, free all memory and return false
-panic:
+panic: // on error, free all memory and return false
     if (buffer)
         free(buffer);
     while ((buffer = cb_get(&lines)))
         free(buffer);
     cb_free(lines);
+
     return 0;
 }
 
@@ -127,6 +127,7 @@ char *getline(FILE *in, char *buffer, size_t len) {
     while (--len && c != '\n' && (c = fgetc(in)) != EOF)
         *buffer++ = c;
     *buffer = 0;
+
     return buffer;
 }
 
@@ -149,6 +150,7 @@ cb_t cb_create(size_t n) {
     cb.buffer = calloc(n + 1, sizeof(char *));
     if (!cb.buffer)
         cb.size = 0;
+
     return cb;
 }
 
@@ -157,6 +159,7 @@ char *cb_put(cb_t *cb, char *line) {
 
     cb->buffer[cb->write] = line;
     cb->write = (cb->write + 1) % cb->size;
+
     return ret;
 }
 
@@ -166,6 +169,7 @@ char *cb_get(cb_t *cb) {
 
     char *ret = cb->buffer[cb->read];
     cb->read = (cb->read + 1) % cb->size;
+
     return ret;
 }
 
