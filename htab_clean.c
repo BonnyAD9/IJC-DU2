@@ -6,7 +6,7 @@ void htab_clear(htab_t *t) {
     for (size_t i = 0; i < t->arr_size; ++i) {
         for (node_t *n = t->arr_ptr[i]; n;) {
             n = n->next;
-            free(n->data.key);
+            free((void *)n->data.key);
             free(n);
         }
         t->arr_ptr[i] = NULL;

@@ -48,7 +48,7 @@ _Bool htab_erase(htab_t *t, htab_key_t key) {
 
     node_t *n = *pn;
     *pn = n->next;
-    free(n->data.key);
+    free((void *)n->data.key);
     free(n);
 
     return 1;

@@ -15,5 +15,13 @@ int read_word(char *s, int max, FILE *f) {
         s[i] = c;
     }
 
+    s[i] = 0;
+
+    // skip the rest of the word if the word was too large
+    if (!isspace(c)) {
+        while (!isspace(c = fgetc(f)) && c != EOF)
+            ;
+    }
+
     return i;
 }
