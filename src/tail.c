@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 // ansi escape codes colorful prints
 #ifdef NO_COLOR_PRINT
 #define MAGENTA
 #define RESET
+#define RED
 #else
+#define RED "\e[91m"
 #define MAGENTA "\e[95m"
 #define RESET "\e[0m"
 #endif
@@ -47,9 +50,60 @@ _Bool tail(FILE *in, FILE* out, size_t line_count);
 // it also includes the newline character
 char *getline(FILE *in, char *buffer, size_t len);
 
-int main(void) {
-    size_t line_count = 5;
-    tail(stdin, stdout, line_count);
+int main(int argc, char **argv) {
+    char *filename = NULL;
+    size_t line_count = 10;
+
+    // parse the arguments, only one filename allowed
+    // multiple -n arguments allowed, the last takes effect
+    while (*++argv) { // C standard says that argv[argc] shall be NULL
+        if (strcmp(*argv, "-n") == 0) {
+            if (!*++argv) {
+                fprintf(
+                    stderr,
+                    RED "failure:" RESET " Expected positive integer after "
+                    "'-n', but there are no more arguments\n"
+                );
+                return EXIT_FAILURE;
+            }
+            char *res;
+            line_count = strtoul(*argv, &res, 10);
+            if (*res || **argv == '-') {
+                fprintf(
+                    stderr,
+                    RED "failure:" RESET " Expected positive integer after "
+                    "'-n', found '%s'\n",
+                    *argv
+                );
+                return EXIT_FAILURE;
+            }
+        } else if (filename) {
+            fprintf(
+                stderr,
+                RED "failure:" RESET " Multiple files specified\n"
+            );
+            return EXIT_FAILURE;
+        } else {
+            filename = *argv;
+        }
+    }
+
+    FILE *in = filename ? fopen(filename, "r") : stdin;
+    int ret = EXIT_SUCCESS;
+
+    if (!tail(in, stdout, line_count)) {
+        fprintf(
+            stderr,
+            RED "failure:" RESET " An unrecoverable failure occured (maybe "
+            "not enough memory)\n"
+        );
+        ret = EXIT_FAILURE;
+    }
+
+    if (filename)
+        fclose(in);
+
+    return ret;
 }
 
 _Bool tail(FILE *in, FILE *out, size_t line_count) {
@@ -77,7 +131,8 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
         char *end = getline(in, buffer, MAX_LINE_LEN);
         if (end == buffer) // reached EOF
             break;
-        if (end[-1] != '\n' && end - buffer + 1 == MAX_LINE_LEN) { // line long
+        // check if line is too long
+        if (end[-1] != '\n' && end - buffer + 1 == MAX_LINE_LEN) {
             // skip all characters on the line (including newline)
             fscanf(in, "%*[^\n]");
             fscanf(in, "%*c");
