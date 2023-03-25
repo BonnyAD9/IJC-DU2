@@ -1,3 +1,9 @@
+// tail.c
+// Řešení IJC-DU2, příklad 1), 25.3. 2023
+// Autor: Jakub Antonín Štigler, FIT
+// Přeloženo: clang 15.0.7
+//  C standard: C11
+
 #include <stdio.h>  // size_t, FILE, fprintf, fopen, fclose, fscanf, fputs,
                     // NULL
 #include <stdlib.h> // strtoul, EXIT_FAILURE, EXIT_SUCCESS, free, malloc,

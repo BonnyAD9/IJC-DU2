@@ -1,3 +1,9 @@
+// wordcount.c
+// Řešení IJC-DU2, příklad 1), 25.3. 2023
+// Autor: Jakub Antonín Štigler, FIT
+// Přeloženo: clang 15.0.7
+//  C standard: C11
+
 #include "io.h"   // fprintf, EOF, read_word
 #include "htab.h" // htab_t, htab_lookup_add, htab_pair_t
 

@@ -1,3 +1,9 @@
+// io.c
+// Řešení IJC-DU2, příklad 2), 25.3. 2023
+// Autor: Jakub Antonín Štigler, FIT
+// Přeloženo: clang 15.0.7
+//  C standard: C11
+
 #include "io.h" // FILE, EOF, fgetc, feof
 
 #include <ctype.h> // isspace

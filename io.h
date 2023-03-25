@@ -1,3 +1,9 @@
+// io.h
+// Řešení IJC-DU2, příklad 2), 25.3. 2023
+// Autor: Jakub Antonín Štigler, FIT
+// Přeloženo: clang 15.0.7
+//  C standard: C11
+
 #ifndef IO_INCLUDED
 #define IO_INCLUDED
 
