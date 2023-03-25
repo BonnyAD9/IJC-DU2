@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <assert.h>
 
+// colorful prints
+#ifdef NO_COLOR_PRINT
+#define MAGENTA
+#define RESET
+#else
+#define MAGENTA "\e[95m"
+#define RESET "\e[0m"
+#endif
+
 // Circular buffer headers >>==================================================
 
 // curcular buffer
@@ -28,7 +37,7 @@ void cb_free(cb_t cb);
 // Tail implementation >>======================================================
 
 // line length implementation limit
-#define MAX_LINE_LEN 4095
+#define MAX_LINE_LEN ((size_t)4095)
 
 // writes the last 'line_count' lines from 'in' to 'out'. returns true on
 // success, otherwise false
@@ -39,7 +48,7 @@ _Bool tail(FILE *in, FILE* out, size_t line_count);
 char *getline(FILE *in, char *buffer, size_t len);
 
 int main(void) {
-    size_t line_count = 2;
+    size_t line_count = 5;
     tail(stdin, stdout, line_count);
 }
 
@@ -51,7 +60,11 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
         return 0;
     char *buffer = NULL;
 
-    for (;;) {
+    // whether to print long line warning at the end
+    _Bool warn = 0;
+    size_t warndist = 0;
+
+    for (;; ++warndist) {
         // allocate the buffer if it isn't
         if (!buffer) {
             buffer = malloc(MAX_LINE_LEN);
@@ -69,6 +82,8 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
             fscanf(in, "%*c");
             // make sure that all lines end with newline
             end[-1] = '\n';
+            warn = 1;
+            warndist = 0;
         }
 
         buffer = cb_put(&lines, buffer);
@@ -82,6 +97,16 @@ _Bool tail(FILE *in, FILE *out, size_t line_count) {
         free(buffer);
     }
     cb_free(lines);
+
+    // print the warning only if the long lines are actually printed
+    if (warn && warndist <= line_count) {
+        fprintf(
+            stderr,
+            "tail: " MAGENTA "warning:" RESET " some long lines were trimmed "
+            "to %zu characters\n",
+            MAX_LINE_LEN - 2
+        );
+    }
 
     return 1;
 
