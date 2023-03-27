@@ -12,9 +12,11 @@
 void htab_statistics(const htab_t *t) {
     size_t min_bucket = SIZE_MAX;
     size_t max_bucket = 0;
+    size_t lists = 0;
 
     for (size_t i = 0; i < t->arr_size; ++i) {
         size_t c = 0;
+        lists += t->arr_ptr[i] != NULL;
         for (node_t *n = t->arr_ptr[i]; n; n = n->next)
             ++c;
         if (c > max_bucket)
@@ -32,6 +34,6 @@ void htab_statistics(const htab_t *t) {
         t->arr_size,
         max_bucket,
         min_bucket,
-        (double)t->arr_size / t->size
+        (double)t->size / lists
     );
 }

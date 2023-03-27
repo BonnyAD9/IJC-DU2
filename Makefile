@@ -6,7 +6,7 @@
 CFLAGS+=-g -Wall -pedantic -std=c11 -Wextra -fsanitize=address
 LDFLAGS:=-g -fsanitize=address
 HTAB:=htab_basic.o htab_clean.o htab_for_each.o htab_hash_function.o \
-htab_lookup.o htab_statistics.c
+htab_lookup.o htab_statistics.o
 
 .PHONY: all clean
 

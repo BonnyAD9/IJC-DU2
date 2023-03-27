@@ -38,6 +38,8 @@ int main(void) {
 
     htab_for_each(m, print_table);
 
+    htab_statistics(m);
+
     htab_free(m);
     return EXIT_SUCCESS;
 

@@ -36,7 +36,7 @@ htab_t *htab_init(const size_t n) {
     if (!tab)
         return NULL;
 
-    tab->arr_size = 0;
+    tab->size = 0;
     // the size of the table is always prime to ensure better distribution
     // even for poor hashing functions
     tab->arr_size = _get_prime(n);
