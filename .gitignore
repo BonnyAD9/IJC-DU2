@@ -6,5 +6,6 @@ test/
 tail
 *.a
 wordcount
+wordcount++
 *.so
 wordcount-dynamic

@@ -18,7 +18,7 @@
 void print_table(htab_pair_t *val);
 
 int main(void) {
-    htab_t *m = htab_init(4000);
+    htab_t *m = htab_init(TABLE_SIZE);
     if (!m) {
         fprintf(stderr, "failed to allocate hash table");
         return EXIT_FAILURE;
@@ -36,7 +36,7 @@ int main(void) {
         ++val->value;
     }
 
-    htab_for_each(m, print_table);
+    //htab_for_each(m, print_table);
 
     htab_statistics(m);
 
