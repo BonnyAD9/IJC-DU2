@@ -11,7 +11,7 @@
 
 // arbitrary value, lare eough for larger files but not too large
 // htab will automatically choose a some prime larger than this
-#define TABLE_SIZE 4000
+#define TABLE_SIZE 2
 
 #define MAX_WORD_LEN 256
 
