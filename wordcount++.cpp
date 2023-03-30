@@ -13,7 +13,7 @@ int main() {
                         // jinak vytvoří nový záznam s hodnotou 0 a
                         // tu operace ++ zvýší na 1)
 
-    /*for (auto &mi: m)   // pro všechny prvky kontejneru m
-        cout << mi.first << "\t" << mi.second << "\n";*/
+    for (auto &mi: m)   // pro všechny prvky kontejneru m
+        cout << mi.first << "\t" << mi.second << "\n";
         //      klíč/slovo          hodnota/počet
 }

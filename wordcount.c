@@ -1,5 +1,5 @@
 // wordcount.c
-// Řešení IJC-DU2, příklad 1), 25.3. 2023
+// Řešení IJC-DU2, příklad 1), 30.3. 2023
 // Autor: Jakub Antonín Štigler, FIT
 // Přeloženo: clang 15.0.7
 //  C standard: C11
@@ -9,8 +9,10 @@
 
 #include <stdlib.h> // EXIT_FAILURE
 
-// arbitrary value, lare eough for larger files but not too large
-// htab will automatically choose a some prime larger than this
+// Arbitrary value, the table is dynamicaly resizing and it uses prime numbers
+// as its size. It will automatically choose prime larger or equal to the given
+// size. The smallest possible size it will have is 11. So choosing the initial
+// size is irrelevant.
 #define TABLE_SIZE 2
 
 #define MAX_WORD_LEN 256
@@ -36,7 +38,7 @@ int main(void) {
         ++val->value;
     }
 
-    //htab_for_each(m, print_table);
+    htab_for_each(m, print_table);
 
     htab_statistics(m);
 

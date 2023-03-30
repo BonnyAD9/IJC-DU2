@@ -1,3 +1,8 @@
+// htab_primes.c
+// Řešení IJC-DU2, příklad 2), 30.3. 2023
+// Autor: Jakub Antonín Štigler, FIT
+// Přeloženo: cc - clang 15.0.7
+
 #include "htab_primes.h"
 
 // precomputed prime numbers (32 prime numbers), each approximetly

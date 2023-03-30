@@ -1,5 +1,5 @@
 // htab_lookup.c
-// Řešení IJC-DU2, příklad 2), 25.3. 2023
+// Řešení IJC-DU2, příklad 2), 30.3. 2023
 // Autor: Jakub Antonín Štigler, FIT
 // Přeloženo: clang 15.0.7
 //  C standard: C11
@@ -49,6 +49,8 @@ static inline node_t **_htab_lookup_any(
     const htab_t *t,
     htab_key_t key
 ) {
+    // this is used because the table is rehashed lazily and so the keys
+    // may be stored at the old position in the table
     size_t hash = htab_hash_function(key);
     node_t **cur = _htab_lookup(t, key, hash);
     if (*cur)
@@ -66,10 +68,14 @@ static inline node_t **_htab_lookup_any_rehash(
     size_t hash = htab_hash_function(key);
     node_t **cur = _htab_lookup(t, key, hash);
     if (*cur)
-        return cur;
+        return cur; // the key is already in the right positoin
+
     node_t **old = _htab_lookup_small(t, key, hash);
     if (!old || !*old)
-        return cur;
+        return cur; // the key is not in the table
+
+    // the key is at its old position, so it will be rehashed for better
+    // performance
     *cur = *old;
     *old = (**cur).next;
     (**cur).next = NULL;
@@ -87,19 +93,29 @@ htab_pair_t *htab_find(const htab_t *t, htab_key_t key) {
 htab_pair_t *htab_lookup_add(htab_t *t, htab_key_t key) {
     node_t **n = _htab_lookup_any_rehash(t, key);
     if (!*n) {
-        if (t->size + 1 > t->arr_size) {
+        // resize the table if the number of items reaches the number of
+        // buckets. The table is rehashed lazily
+        if (t->size + 1 >= t->arr_size) {
             size_t new_size = next_prime(t->arr_size);
             node_t **new_arr =
                 realloc(t->arr_ptr, new_size * sizeof(*new_arr));
             if (!new_arr) {
                 return NULL;
             }
+
             t->arr_ptr = new_arr;
-            for (size_t i = t->arr_size; i < new_size; ++i)
-                t->arr_ptr[i] = NULL;
+            // fill the newly allocated memory with NULL
+            memset(
+                t->arr_ptr + t->arr_size,
+                0,
+                (new_size - t->arr_size) * sizeof(*t->arr_ptr)
+            );
             t->arr_size = new_size;
+
+            // find the position for the new item in the resized table
             n = _htab_lookup(t, key, htab_hash_function(key));
         }
+
         *n = calloc(1, sizeof(**n));
         if (!*n)
             return NULL;

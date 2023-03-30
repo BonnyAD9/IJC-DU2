@@ -1,3 +1,8 @@
+// htab_primes.h
+// Řešení IJC-DU2, příklad 2), 30.3. 2023
+// Autor: Jakub Antonín Štigler, FIT
+// Přeloženo: cc - clang 15.0.7
+
 #ifndef HTAB_PRIMES_INCLUDED
 #define HTAB_PRIMES_INCLUDED
 
