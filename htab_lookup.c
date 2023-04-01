@@ -36,11 +36,12 @@ static inline node_t **_htab_lookup_small(
     htab_key_t key,
     size_t hash
 ) {
-    node_t **n = NULL;
     for (size_t i = prime_index(t->arr_size) - 1; i != SIZE_MAX; --i) {
-        n = _htab_lookup_node(t->arr_ptr + hash % prime_at(i), key);
+        node_t **n = _htab_lookup_node(t->arr_ptr + hash % prime_at(i), key);
+        if (*n)
+            return n;
     }
-    return n;
+    return NULL;
 }
 
 // finds the place where node with the key is or should be, also searches
