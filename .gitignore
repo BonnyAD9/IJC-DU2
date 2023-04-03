@@ -9,3 +9,4 @@ wordcount
 wordcount++
 *.so
 wordcount-dynamic
+*.zip
