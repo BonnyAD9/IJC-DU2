@@ -13,8 +13,9 @@ override CFLAGS:= -g -Wall -pedantic -std=c11 -Wextra -O2 -fPIC $(CFLAGS)
 override LDFLAGS:= -g -O2 $(LDFLAGS)
 HTAB:=htab_basic.o htab_clean.o htab_for_each.o htab_hash_function.o \
 htab_lookup.o htab_statistics.o htab_primes.o
+SUBNAME:=xstigl00
 
-.PHONY: all clean
+.PHONY: all clean submit
 
 all: tail wordcount wordcount-dynamic
 
@@ -40,3 +41,6 @@ wordcount++:
 clean:
 	-rm *.o tail *.a wordcount *.so wordcount-dynamic wordcount++ dep.d \
 	wordcount++.o
+
+submit:
+	zip $(SUBNAME).zip *.c *.cpp *.h Makefile
