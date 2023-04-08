@@ -2,6 +2,7 @@
 # Řešení IJC-DU2, příklad 1) a 2), 8.4. 2023
 # Autor: Jakub Antonín Štigler, FIT
 # Přeloženo: cc - clang 15.0.7
+#   Funguje s gcc 12.2.1
 # Usage:
 #   make # builds tail, wordcount and wordcount-dynamic
 #   make wordcount++ # builds wordcount++
