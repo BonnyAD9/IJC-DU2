@@ -1,5 +1,5 @@
 // wordcount.c
-// Řešení IJC-DU2, příklad 1), 30.3. 2023
+// Řešení IJC-DU2, příklad 1), 8.4. 2023
 // Autor: Jakub Antonín Štigler, FIT
 // Přeloženo: clang 15.0.7
 //  C standard: C11
@@ -40,7 +40,9 @@ int main(void) {
 
     htab_for_each(m, print_table);
 
+#ifdef STATISTICS
     htab_statistics(m);
+#endif // STATISTICS
 
     htab_free(m);
     return EXIT_SUCCESS;
