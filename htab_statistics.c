@@ -26,6 +26,11 @@ void htab_statistics(const htab_t *t) {
             min_bucket = c;
     }
 
+    if (t->size == 0) {
+        min_bucket = 0;
+        lists = 1;
+    }
+
     fprintf(
         stderr,
         "bucket count:  %zu\n"

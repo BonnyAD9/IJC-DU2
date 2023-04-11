@@ -147,6 +147,7 @@ _Bool htab_erase(htab_t *t, htab_key_t key) {
     *pn = n->next;
     free((void *)n->data.key);
     free(n);
+    --t->size;
 
     return 1;
 }

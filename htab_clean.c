@@ -19,6 +19,7 @@ void htab_clear(htab_t *t) {
         }
         t->arr_ptr[i] = NULL;
     }
+    t->size = 0;
 }
 
 void htab_free(htab_t *t) {
